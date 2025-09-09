@@ -1,6 +1,5 @@
-<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" style="height:64px;margin-right:32px"/>
-
 # AI-Driven Chronic Care Patient Risk Prediction Dashboard
+## Access the dashboard at https://predictmyhealth.netlify.app/
 
 ## Overview
 
