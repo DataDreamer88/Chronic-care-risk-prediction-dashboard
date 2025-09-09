@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCare Risk Prediction Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header__brand">
+            <h1>HealthCare Risk Dashboard</h1>
+        </div>
+        <div class="header__actions">
+            <div class="header__status">
+                <span class="status status--success">HIPAA Secured</span>
+                <span class="status status--info">Real-time: Active</span>
+            </div>
+            <div class="header__user">
+                <div class="user-info">
+                    <span class="user-name">Dr. VITian XYZ</span>
+                    <span class="user-role">Attending Physician</span>
+                </div>
+                <div class="notification-badge">
+                    <span class="badge">3</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <nav class="nav">
+            <a href="#" class="nav__item nav__item--active" data-section="dashboard">
+                <span class="nav__icon">📊</span>
+                Dashboard Overview
+            </a>
+            <a href="#" class="nav__item" data-section="patients">
+                <span class="nav__icon">👥</span>
+                Patient Management
+            </a>
+            <a href="#" class="nav__item" data-section="alerts">
+                <span class="nav__icon">🚨</span>
+                Risk Alerts
+                <span class="badge badge--small">3</span>
+            </a>
+            <a href="#" class="nav__item" data-section="analytics">
+                <span class="nav__icon">📈</span>
+                Analytics & Reports
+            </a>
+            <a href="#" class="nav__item" data-section="performance">
+                <span class="nav__icon">🎯</span>
+                Model Performance
+            </a>
+            <a href="#" class="nav__item" data-section="settings">
+                <span class="nav__icon">⚙️</span>
+                Settings
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Overview Section -->
+        <section id="dashboard" class="section section--active">
+            <div class="section__header">
+                <h2>Dashboard Overview</h2>
+                <div class="section__actions">
+                    <button class="btn btn--outline btn--sm">Export Report</button>
+                    <button class="btn btn--primary btn--sm">Refresh Data</button>
+                </div>
+            </div>
+
+            <!-- Key Metrics Cards -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-card__header">
+                        <h3>Total Patients</h3>
+                        <span class="metric-card__icon">👥</span>
+                    </div>
+                    <div class="metric-card__value">847</div>
+                    <div class="metric-card__change positive">+12 this week</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-card__header">
+                        <h3>High Risk Count</h3>
+                        <span class="metric-card__icon">⚠️</span>
+                    </div>
+                    <div class="metric-card__value">89</div>
+                    <div class="metric-card__change negative">+5 today</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-card__header">
+                        <h3>Active Alerts</h3>
+                        <span class="metric-card__icon">🚨</span>
+                    </div>
+                    <div class="metric-card__value">23</div>
+                    <div class="metric-card__change neutral">3 critical</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-card__header">
+                        <h3>Model Accuracy</h3>
+                        <span class="metric-card__icon">🎯</span>
+                    </div>
+                    <div class="metric-card__value">83%</div>
+                    <div class="metric-card__change positive">+2.1%</div>
+                </div>
+            </div>
+
+            <!-- Charts and Quick Actions -->
+            <div class="dashboard-grid">
+                <div class="chart-container" style="position: relative; height: 300px;">
+                    <h3>Risk Distribution</h3>
+                    <canvas id="riskChart"></canvas>
+                </div>
+                
+                <div class="quick-search">
+                    <h3>Quick Patient Search</h3>
+                    <div class="search-box">
+                        <input type="text" placeholder="Search by name, ID, or condition..." class="form-control" id="quickSearch">
+                        <button class="btn btn--primary">Search</button>
+                    </div>
+                    <div class="high-risk-patients">
+                        <h4>Highest Risk Patients</h4>
+                        <div class="patient-quick-list" id="highRiskList">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Alerts Timeline -->
+            <div class="recent-alerts">
+                <h3>Recent Alerts</h3>
+                <div class="alerts-timeline" id="recentAlerts">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Patient Management Section -->
+        <section id="patients" class="section">
+            <div class="section__header">
+                <h2>Patient Management</h2>
+                <div class="section__actions">
+                    <button class="btn btn--outline btn--sm">Add Patient</button>
+                    <button class="btn btn--primary btn--sm">Export List</button>
+                </div>
+            </div>
+
+            <!-- Search and Filter Controls -->
+            <div class="filters-section">
+                <div class="filters-grid">
+                    <input type="text" placeholder="Search patients..." class="form-control" id="patientSearch">
+                    <select class="form-control" id="riskFilter">
+                        <option value="">All Risk Levels</option>
+                        <option value="High">High Risk</option>
+                        <option value="Medium">Medium Risk</option>
+                        <option value="Low">Low Risk</option>
+                    </select>
+                    <select class="form-control" id="conditionFilter">
+                        <option value="">All Conditions</option>
+                        <option value="diabetes">Diabetes</option>
+                        <option value="copd">COPD</option>
+                        <option value="hypertension">Hypertension</option>
+                        <option value="heart failure">Heart Failure</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Patient Cards Grid -->
+            <div class="patients-grid" id="patientsGrid">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Risk Alerts Section -->
+        <section id="alerts" class="section">
+            <div class="section__header">
+                <h2>Risk Alerts & Notifications</h2>
+                <div class="section__actions">
+                    <button class="btn btn--outline btn--sm">Mark All Read</button>
+                    <button class="btn btn--primary btn--sm">Export Alerts</button>
+                </div>
+            </div>
+
+            <!-- Alert Filters -->
+            <div class="alert-filters">
+                <select class="form-control" id="priorityFilter">
+                    <option value="">All Priorities</option>
+                    <option value="Critical">Critical</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                </select>
+                <select class="form-control" id="statusFilter">
+                    <option value="">All Status</option>
+                    <option value="Unacknowledged">Unacknowledged</option>
+                    <option value="Acknowledged">Acknowledged</option>
+                    <option value="In Progress">In Progress</option>
+                </select>
+            </div>
+
+            <!-- Alerts List -->
+            <div class="alerts-list" id="alertsList">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics" class="section">
+            <div class="section__header">
+                <h2>Analytics & Reports</h2>
+                <div class="section__actions">
+                    <button class="btn btn--outline btn--sm">Export Charts</button>
+                    <button class="btn btn--primary btn--sm">Generate Report</button>
+                </div>
+            </div>
+
+            <div class="analytics-grid">
+                <div class="chart-container" style="position: relative; height: 300px;">
+                    <h3>Population Health Trends</h3>
+                    <canvas id="trendsChart"></canvas>
+                </div>
+                <div class="chart-container" style="position: relative; height: 300px;">
+                    <h3>Intervention Effectiveness</h3>
+                    <canvas id="interventionChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Model Performance Section -->
+        <section id="performance" class="section">
+            <div class="section__header">
+                <h2>Model Performance</h2>
+                <div class="section__actions">
+                    <button class="btn btn--outline btn--sm">Model History</button>
+                    <button class="btn btn--primary btn--sm">Retrain Model</button>
+                </div>
+            </div>
+
+            <!-- Performance Metrics Grid -->
+            <div class="performance-grid">
+                <div class="performance-card">
+                    <h3>AUROC</h3>
+                    <div class="performance-value">0.86</div>
+                    <div class="performance-description">Area Under ROC Curve</div>
+                </div>
+                <div class="performance-card">
+                    <h3>AUPRC</h3>
+                    <div class="performance-value">0.79</div>
+                    <div class="performance-description">Area Under Precision-Recall</div>
+                </div>
+                <div class="performance-card">
+                    <h3>Accuracy</h3>
+                    <div class="performance-value">83%</div>
+                    <div class="performance-description">Overall Prediction Accuracy</div>
+                </div>
+                <div class="performance-card">
+                    <h3>Calibration</h3>
+                    <div class="performance-value">0.92</div>
+                    <div class="performance-description">Model Calibration Score</div>
+                </div>
+            </div>
+
+            <!-- Performance Chart -->
+            <div class="chart-container" style="position: relative; height: 400px;">
+                <h3>Model Performance Over Time</h3>
+                <canvas id="performanceChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings" class="section">
+            <div class="section__header">
+                <h2>Settings</h2>
+                <div class="section__actions">
+                    <button class="btn btn--outline btn--sm">Reset</button>
+                    <button class="btn btn--primary btn--sm">Save Changes</button>
+                </div>
+            </div>
+
+            <div class="settings-grid">
+                <div class="settings-card">
+                    <h3>Display Preferences</h3>
+                    <div class="form-group">
+                        <label class="form-label">Theme</label>
+                        <select class="form-control" id="themeSelect">
+                            <option value="auto">Auto (System)</option>
+                            <option value="light">Light Mode</option>
+                            <option value="dark">Dark Mode</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Refresh Interval</label>
+                        <select class="form-control">
+                            <option value="30">30 seconds</option>
+                            <option value="60" selected>1 minute</option>
+                            <option value="300">5 minutes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <h3>Alert Configuration</h3>
+                    <div class="form-group">
+                        <label class="form-label">Critical Alert Threshold</label>
+                        <input type="number" class="form-control" value="0.8" step="0.01" min="0" max="1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">High Risk Threshold</label>
+                        <input type="number" class="form-control" value="0.6" step="0.01" min="0" max="1">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Patient Detail Modal -->
+    <div class="modal hidden" id="patientModal">
+        <div class="modal__backdrop" id="modalBackdrop"></div>
+        <div class="modal__content">
+            <div class="modal__header">
+                <h2 id="modalPatientName">Patient Details</h2>
+                <button class="modal__close" id="modalClose">×</button>
+            </div>
+            <div class="modal__body" id="modalBody">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
